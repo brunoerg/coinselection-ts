@@ -1,4 +1,4 @@
-export type Input = {
+export type Output = {
     script?: Script
     value: number
 }
