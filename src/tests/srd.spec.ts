@@ -1,4 +1,3 @@
-import * as utils from '../utils'
 import { utxos } from './utxos/1'
 import { srd } from '../srd'
 import { Input } from '../types/input.type';
