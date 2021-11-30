@@ -1,4 +1,4 @@
-import { utxos } from './utxos/1'
+import utxos from './utxos/1.json'
 import { srd } from '../srd'
 import { Input } from '../types/input.type';
 
