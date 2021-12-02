@@ -118,3 +118,35 @@ export function getSelectionWaste(inputs: Array<OutputGroup>, use_effective_valu
 
     return waste;
 }
+
+export function ApproximateBestSubset(groups: Array<OutputGroup>, total_lower: number, target_value: number, iterations: number = 1000): [number, boolean[]] {
+    
+    let vf_included: Array<boolean> = [];
+    let vf_best: Array<boolean> = [];
+    let n_best: number = total_lower;
+
+    for (let rep = 0; rep < iterations && n_best != target_value; rep++) {
+        let n_total: number = 0;
+        let reached_target: boolean = false;
+        for (let n_pass = 0; n_pass < 2 && !reached_target; n_pass++) {
+            for (let i = 0; i < groups.length; i++) {
+                const amount = getSelectionAmount(false, groups[i]);
+                if (n_pass == 0 ? Math.random() < 0.5 : !vf_included[i]) {
+                    n_total += amount;
+                    vf_included[i] = true;
+                    if (n_total >= target_value) {
+                        reached_target = true;
+                        if (n_total < n_best) {
+                            n_best = n_total;
+                            vf_best = vf_included;
+                        }
+                        n_total -= amount;
+                        vf_included[i] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    return [n_best, vf_best];
+}
