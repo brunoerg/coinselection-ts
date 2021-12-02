@@ -1,11 +1,13 @@
 import { Input } from "./types/input.type"
 import { Output } from "./types/output.type"
+import { OutputGroup } from "./types/output_group.type"
 
 const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 const TX_INPUT_BASE = 32 + 4 + 1 + 4
 const TX_INPUT_PUBKEYHASH = 107
 const TX_OUTPUT_BASE = 8 + 1
 const TX_OUTPUT_PUBKEYHASH = 25
+const EFFECTIVE_FEE_RATE = 10;
 
 export function inputBytes(input: Input) {
     return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
@@ -92,4 +94,27 @@ export function shuffle(array: Array<Output>) {
     }
 
     return array;
+}
+
+export function getSelectionAmount(subtract_fee_outputs: boolean, utxo: OutputGroup): number {
+    utxo.effective_value = utxo.value - (EFFECTIVE_FEE_RATE * inputBytes(utxo));
+    return subtract_fee_outputs ? utxo.value : utxo.effective_value;
+}
+
+export function getSelectionWaste(inputs: Array<OutputGroup>, use_effective_value: boolean, change_cost: number, target: number): number {
+    let waste: number = 0;
+    let selected_effective_value: number = 0;
+
+    for (const input of inputs) {
+        waste += input.fee - input.long_term_fee;
+        selected_effective_value += use_effective_value ? input.effective_value : input.value;
+    }
+
+    if (change_cost > 0) {
+        waste += change_cost;
+    } else {
+        waste += selected_effective_value - target;
+    }
+
+    return waste;
 }
