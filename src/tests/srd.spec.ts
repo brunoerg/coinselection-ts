@@ -17,5 +17,5 @@ describe('Test SRD', () => {
         const result: Array<Input> = srd(utxos, 1000000);
         const amount = result.reduce((a, { value }) => a + value, 0 );
         expect(amount).toBeGreaterThanOrEqual(1000000);
-    })
+    });
 });
