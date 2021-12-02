@@ -1,11 +1,20 @@
 export type OutputGroup = {
     script?: Script
-    fee: number 
-    long_term_fee: number
+    tx_id?: string, 
+    vout?: number,
+    non_witness_utxo?: Buffer
+    witness_utxo?: WitnessUtxo
+    fee?: number 
+    long_term_fee?: number
     value: number
     effective_value?: number
 }
 
 export type Script = {
     length: number
+}
+
+export type WitnessUtxo = {
+    script: Buffer,
+    value: number
 }
