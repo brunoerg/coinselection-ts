@@ -63,7 +63,7 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
             curr_available_value -= utils.getSelectionAmount(true, utxo);
 
             if (curr_selection.length > 0 && !curr_selection[curr_selection.length - 1] &&
-                utils.getSelectionAmount(false, utxo) == utils.getSelectionAmount(false, utxos[curr_selection.length - 1]) &&
+                utils.getSelectionAmount(true, utxo) == utils.getSelectionAmount(true, utxos[curr_selection.length - 1]) &&
                 utxo.fee == utxos[curr_selection.length - 1].fee) {
                 curr_selection.push(false);
             } else {
