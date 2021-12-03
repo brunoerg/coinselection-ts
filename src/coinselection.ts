@@ -28,15 +28,15 @@ export function coinselection(utxos: Array<Output>, outputs: Array<Output>, fee_
     const results = [ 
         {
             'result': srd_result,
-            'waste': utils.getSelectionWaste(srd_result.inputs, false, 10, amount_with_fees)
+            'waste': srd_result.inputs.length == 0 ? 1000000 : utils.getSelectionWaste(srd_result.inputs, false, 10, amount_with_fees)
         },
         {
             'result': bnb_result,
-            'waste': utils.getSelectionWaste(bnb_result.inputs, false, 0, amount_with_fees)
+            'waste': bnb_result.inputs.length == 0 ? 1000000 : utils.getSelectionWaste(bnb_result.inputs, false, 0, amount_with_fees)
         },
         {
             'result': ks_result,
-            'waste': utils.getSelectionWaste(ks_result.inputs, false, 0, amount_with_fees)
+            'waste':  ks_result.inputs.length == 0 ? 1000000 : utils.getSelectionWaste(ks_result.inputs, false, 0, amount_with_fees)
         }
     ];
 
