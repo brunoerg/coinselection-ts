@@ -21,6 +21,7 @@ export function coinselection(utxos: Array<OutputGroup>, outputs: Array<Output>,
         }
         coins.push(coin);
     }
+    
     const srd_result = utils.finalize(srd(coins, amount_with_fees), outputs, fee_rate);
     const bnb_result = utils.finalize(bnb(coins, amount_with_fees, 0), outputs, fee_rate);
     const ks_result = utils.finalize(knapsack(coins, amount_with_fees), outputs, fee_rate);
@@ -40,5 +41,7 @@ export function coinselection(utxos: Array<OutputGroup>, outputs: Array<Output>,
         }
     ];
 
-    return Math.min.apply(null, results.map(item => item.waste));
+    const min = Math.min.apply(null, results.map(item => item.waste));
+
+    return results.filter(item => item.waste == min)[0].result;
 }
