@@ -16,7 +16,7 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
     }
 
     utxos = utxos.sort((a, b) => {
-        return b.value - a.value
+        return b.effective_value - a.effective_value
     });
 
     let curr_waste: number = 0;
