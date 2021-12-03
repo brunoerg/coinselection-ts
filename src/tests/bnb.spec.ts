@@ -1,10 +1,10 @@
 import { Input } from '../types/input.type';
 import { bnb } from '../bnb';
 import utxos_json from './utxos/1.json';
-import { OutputGroup } from '../types/output_group.type';
+import { Output } from '../types/output.type';
 
 describe('Test BNB', () => {
-    let utxos_bnb: Array<OutputGroup> = [];
+    let utxos_bnb: Array<Output> = [];
 
     for (const utxo of utxos_json) {
         let output_group = {

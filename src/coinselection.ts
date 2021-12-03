@@ -2,15 +2,14 @@ import { bnb } from "./bnb";
 import { knapsack } from "./knapsack";
 import { srd } from "./srd"
 import { Output } from "./types/output.type";
-import { OutputGroup } from "./types/output_group.type";
 import * as utils from "./utils";
 
-export function coinselection(utxos: Array<OutputGroup>, outputs: Array<Output>, fee_rate: number, long_term_fee: number) {
+export function coinselection(utxos: Array<Output>, outputs: Array<Output>, fee_rate: number, long_term_fee: number) {
     const input_bytes = utils.transactionBytes([], outputs);
     const amount = outputs.reduce((a, { value }) => a + value, 0);
     const amount_with_fees = input_bytes * fee_rate + amount;
 
-    let coins: Array<OutputGroup> = [];
+    let coins: Array<Output> = [];
 
     for (const utxo of utxos) {
         const coin = {
@@ -21,7 +20,7 @@ export function coinselection(utxos: Array<OutputGroup>, outputs: Array<Output>,
         }
         coins.push(coin);
     }
-    
+
     const srd_result = utils.finalize(srd(coins, amount_with_fees), outputs, fee_rate);
     const bnb_result = utils.finalize(bnb(coins, amount_with_fees, 0), outputs, fee_rate);
     const ks_result = utils.finalize(knapsack(coins, amount_with_fees), outputs, fee_rate);

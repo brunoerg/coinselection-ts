@@ -1,11 +1,11 @@
 import { Input } from '../types/input.type';
 import { knapsack } from '../knapsack';
 import utxos_json from './utxos/1.json';
-import { OutputGroup } from '../types/output_group.type';
+import { Output } from '../types/output.type';
 
 
 describe('Test Knapsack', () => {
-    let utxos: Array<OutputGroup> = [];
+    let utxos: Array<Output> = [];
 
     for (const utxo of utxos_json) {
         let output_group = {

@@ -1,10 +1,10 @@
 import * as utils from "./utils";
 import { Input } from "./types/input.type";
-import { OutputGroup } from "./types/output_group.type";
+import { Output } from "./types/output.type";
 
 const MAX_TRIES = 100000;
 
-export function bnb(utxos: Array<OutputGroup>, selection_target: number, cost_of_change: number): Array<Input> {
+export function bnb(utxos: Array<Output>, selection_target: number, cost_of_change: number): Array<Input> {
     let curr_value: number = 0;
     let curr_selection: Array<boolean> = [];
     let out_set: Array<Input> = [];
@@ -55,11 +55,11 @@ export function bnb(utxos: Array<OutputGroup>, selection_target: number, cost_of
             }
 
             curr_selection[curr_selection.length - 1] = false;
-            let utxo: OutputGroup = utxos[curr_selection.length - 1];
+            let utxo: Output = utxos[curr_selection.length - 1];
             curr_value -= utils.getSelectionAmount(true, utxo);
             curr_waste -= utxo.fee - utxo.long_term_fee;
         } else {
-            let utxo: OutputGroup = utxos[curr_selection.length];
+            let utxo: Output = utxos[curr_selection.length];
             curr_available_value -= utils.getSelectionAmount(true, utxo);
 
             if (curr_selection.length > 0 && !curr_selection[curr_selection.length - 1] &&

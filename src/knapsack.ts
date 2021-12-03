@@ -1,12 +1,12 @@
-import { OutputGroup } from "./types/output_group.type";
+import { Output } from "./types/output.type";
 import * as utils from "./utils";
 
 const MIN_CHANGE = 500;
 
-export function knapsack(utxos: Array<OutputGroup>, target_value: number): Array<OutputGroup> {
-    let lowest_larger: OutputGroup;
-    let applicable_groups: Array<OutputGroup> = [];
-    let set_coins_ret: Array<OutputGroup> = [];
+export function knapsack(utxos: Array<Output>, target_value: number): Array<Output> {
+    let lowest_larger: Output;
+    let applicable_groups: Array<Output> = [];
+    let set_coins_ret: Array<Output> = [];
     let total_lower: number = 0;
 
     utxos = utils.shuffle(utxos);
@@ -46,7 +46,7 @@ export function knapsack(utxos: Array<OutputGroup>, target_value: number): Array
     if (lowest_larger && ((abs[0] != target_value && abs[0] < target_value + MIN_CHANGE) || utils.getSelectionAmount(false, lowest_larger) <= abs[0])) {
         return [lowest_larger];
     } else {
-        let final_return: Array<OutputGroup> = [];
+        let final_return: Array<Output> = [];
         for (let i = 0; i < applicable_groups.length; i++) {
             if (abs[1]) {
                 final_return.push(applicable_groups[i]);

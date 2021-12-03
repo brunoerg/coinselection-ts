@@ -1,6 +1,5 @@
 import { Input } from "./types/input.type"
 import { Output } from "./types/output.type"
-import { OutputGroup } from "./types/output_group.type"
 
 const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -96,12 +95,12 @@ export function shuffle(array: Array<Output>) {
     return array;
 }
 
-export function getSelectionAmount(subtract_fee_outputs: boolean, utxo: OutputGroup): number {
+export function getSelectionAmount(subtract_fee_outputs: boolean, utxo: Output): number {
     utxo.effective_value = utxo.value - (EFFECTIVE_FEE_RATE * inputBytes(utxo));
     return subtract_fee_outputs ? utxo.value : utxo.effective_value;
 }
 
-export function getSelectionWaste(inputs: Array<OutputGroup>, use_effective_value: boolean, change_cost: number, target: number): number {
+export function getSelectionWaste(inputs: Array<Output>, use_effective_value: boolean, change_cost: number, target: number): number {
     let waste: number = 0;
     let selected_effective_value: number = 0;
 
@@ -119,7 +118,7 @@ export function getSelectionWaste(inputs: Array<OutputGroup>, use_effective_valu
     return waste;
 }
 
-export function ApproximateBestSubset(groups: Array<OutputGroup>, total_lower: number, target_value: number, iterations: number = 1000): [number, boolean[]] {
+export function ApproximateBestSubset(groups: Array<Output>, total_lower: number, target_value: number, iterations: number = 1000): [number, boolean[]] {
     
     let vf_included: Array<boolean> = [];
     let vf_best: Array<boolean> = [];
