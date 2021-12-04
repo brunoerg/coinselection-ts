@@ -9,7 +9,10 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
     let curr_selection: Array<boolean> = [];
     let out_set: Array<Input> = [];
 
-    let curr_available_value = utxos.reduce((a, { value }) => a + value, 0);
+    let curr_available_value: number = 0;
+    for (const utxo of utxos) {
+        curr_available_value += utils.getSelectionAmount(true, utxo);
+    }
 
     if (curr_available_value < selection_target) {
         return [];
@@ -60,6 +63,7 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
             curr_waste -= utxo.fee - utxo.long_term_fee;
         } else {
             let utxo: Output = utxos[curr_selection.length];
+
             curr_available_value -= utils.getSelectionAmount(true, utxo);
 
             if (curr_selection.length > 0 && !curr_selection[curr_selection.length - 1] &&
