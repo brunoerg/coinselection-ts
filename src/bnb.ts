@@ -88,7 +88,5 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
         }
     }
 
-    console.log(out_set);
-
     return out_set;
 }
