@@ -2,7 +2,7 @@ import * as utils from "./utils";
 import { Input } from "./types/input.type";
 import { Output } from "./types/output.type";
 
-const MAX_TRIES = 100000;
+const TOTAL_TRIES = 100000;
 
 export function bnb(utxos: Array<Output>, selection_target: number, cost_of_change: number): Array<Input> {
     let curr_value: number = 0;
@@ -26,7 +26,7 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
     let best_selection: Array<boolean> = [];
     let best_waste: number = (21000000 * 100000000);
 
-    for (let i = 0; i < MAX_TRIES; ++i) {
+    for (let i = 0; i < TOTAL_TRIES; ++i) {
         let backtrack: boolean = false;
         if (curr_value + curr_available_value < selection_target ||
             curr_value > selection_target + cost_of_change ||
@@ -50,7 +50,7 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
         if (backtrack) {
             while (curr_selection.length > 0 && !curr_selection[curr_selection.length - 1]) {
                 curr_selection.pop();
-                curr_available_value += utils.getSelectionAmount(true, utxos[utxos.length - 1]);
+                curr_available_value += utils.getSelectionAmount(true, utxos[curr_selection.length]);
             }
 
             if (curr_selection.length == 0) {
@@ -87,6 +87,8 @@ export function bnb(utxos: Array<Output>, selection_target: number, cost_of_chan
             out_set.push(utxos[i]);
         }
     }
+
+    console.log(out_set);
 
     return out_set;
 }
