@@ -7,8 +7,8 @@ describe('Test coin selection', () => {
         expect(result.inputs).toHaveLength(1);
     });
 
-    test('100000 + 84975 satoshis, should not generate change', () => {
+    test('100000 + 84975 satoshis, should not generate change (BnB solution)', () => {
         const result = coinselection(utxos, [{ value: 100000 }, { value: 84975 }], 10, 10);
         expect(result.outputs).toHaveLength(2);
-    })
+    });
 });
