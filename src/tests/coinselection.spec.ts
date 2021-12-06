@@ -13,11 +13,16 @@ describe('Test coin selection', () => {
     });
 
     test('1 million satoshis, sum of outputs value should be greater than 1 million', () => {
-        const result = coinselection(utxos, [{ value: 1000000 }], 1, 10);
+        const { outputs } = coinselection(utxos, [{ value: 1000000 }], 1, 10);
         let total = 0;
-        for (const output of result.outputs) {
+        for (const output of outputs) {
             total += output.value;
         }
         expect(total).toBeGreaterThanOrEqual(1000000);
+    });
+
+    test('1 million satoshis, with 10 sats/B for fee and 1 sat/B for long term fee, should have 2 inputs or less', () => {
+        const { inputs } = coinselection(utxos, [{ value: 100000 }], 10, 1);
+        expect(inputs.length).toBeLessThanOrEqual(2);
     });
 });
