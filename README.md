@@ -25,7 +25,8 @@ const utxos = [
     ...,
     value: 10000,
     script: {
-        ...
+            ...
+        }
     }
 ];
 
