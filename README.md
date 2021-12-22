@@ -12,7 +12,7 @@ npm i --save coinselection-ts
 ## How to use
 
 ```javascript
-import { coinselection } from coinselection-ts
+import { coinselection } from "coinselection-ts"
 
 const fee_rate = 1; //satoshis per byte
 const long_term_fee = 10;
