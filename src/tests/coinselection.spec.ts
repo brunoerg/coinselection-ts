@@ -3,7 +3,7 @@ import { coinselection } from '../coinselection';
 
 describe('Test coin selection', () => {
     test('9560 satoshis, should return 1 input (BnB solution)', () => {
-        const result = coinselection(utxos, [{value: 9560}], 10, 10);
+        const result = coinselection(utxos, [{ value: 9560 }], 10, 10);
         expect(result.inputs).toHaveLength(1);
     });
 
@@ -25,4 +25,32 @@ describe('Test coin selection', () => {
         const { inputs } = coinselection(utxos, [{ value: 100000 }], 10, 1);
         expect(inputs.length).toBeLessThanOrEqual(2);
     });
+
+    test('Insufficient funds, should return an empty solution', () => {
+        const utxos =
+            [
+                {
+                    "txId": "0eb727d9da3cbbabae776d8200221f68473d5a0bc2c456d18e419c493ed0bf2d",
+                    "vout": 46,
+                    "value": 14561,
+                },
+                {
+                    "txId": "d4eb4955286bb97c40302b5ec018b55f9b498f2b64ce726f19b0eadb7f4a7c44",
+                    "vout": 80,
+                    "value": 355933,
+                }
+            ];
+
+        const recipients = [
+            {
+                "value": 69036119,
+                "to": "1GsPMkp9dr1nHYoXzuBitiCiGcDzAuhnB5",
+            }
+        ];
+
+        const { inputs, outputs } = coinselection(utxos, recipients, 1, 1);
+
+        expect(inputs.length).toEqual(0);
+        expect(outputs.length).toEqual(0);
+    })
 });

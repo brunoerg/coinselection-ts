@@ -8,6 +8,15 @@ export function coinselection(utxos: Array<Output>, outputs: Array<Output>, fee_
     const input_bytes = utils.transactionBytes([], outputs);
     const amount = outputs.reduce((a, { value }) => a + value, 0);
     const amount_with_fees = input_bytes * fee_rate + amount;
+    const amount_utxos = utxos.reduce((a, { value }) => a + value, 0);
+
+
+    if (amount_with_fees > amount_utxos || (fee_rate < 0 || long_term_fee < 0)) {
+        return {
+            inputs: [],
+            outputs: []
+        }
+    }
 
     let coins: Array<Output> = [];
 
